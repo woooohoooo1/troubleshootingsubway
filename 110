@@ -1,0 +1,44 @@
+def decimal_to_binary(decimal, precision=3):
+    whole, fraction = str(decimal).split('.')
+    whole = int(whole)
+    fraction = float("0." + fraction)
+
+    binary_whole = ""
+    while whole > 0:
+        remainder = whole % 2
+        whole = whole // 2
+        binary_whole = str(remainder) + binary_whole
+
+    binary_fraction = ""
+    while precision > 0:
+        fraction *= 2
+        if fraction >= 1:
+            binary_fraction += '1'
+            fraction -= 1
+        else:
+            binary_fraction += '0'
+        precision -= 1
+
+    return binary_whole + "." + binary_fraction
+
+def binary_to_decimal(binary, precision=3):
+    whole, fraction = str(binary).split('.')
+    decimal_whole = 0
+    for i, digit in enumerate(reversed(whole)):
+        decimal_whole += int(digit) * (2 ** i)
+
+    decimal_fraction = 0
+    for i, digit in enumerate(fraction):
+        decimal_fraction += int(digit) * (2 ** -(i + 1))
+
+    return round(decimal_whole + decimal_fraction, precision)
+
+def main():
+    decimal_num = float(input("Enter a decimal number with up to 3 decimal places: "))
+    binary_num = input("Enter a binary number with up to 3 decimal places: ")
+
+    print("Decimal to binary:", decimal_to_binary(decimal_num))
+    print("Binary to decimal:", binary_to_decimal(binary_num))
+
+if __name__ == "__main__":
+    main()
